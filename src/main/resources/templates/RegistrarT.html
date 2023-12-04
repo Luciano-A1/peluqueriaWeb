@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Registrar Turno</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 40px;
+                background-image: url('https://www.xtrafondos.com/wallpapers/degradado-difuminado-azul-7935.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+                color: #fff;
+            }
+            h2 {
+                color: #333;
+            }
+            h3 {
+                color: #000;
+            }
+            form {
+                max-width: 400px;
+                margin: 0 auto;
+                background-color: rgba(255, 255, 255, 0.8);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            label {
+                display: block;
+                margin-top: 10px;
+                color: #333;
+            }
+            select, input[type="text"], input[type="submit"] {
+                width: 100%;
+                padding: 8px;
+                margin-top: 5px;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            input[type="radio"] {
+                margin-right: 10px;
+            }
+            span.error-message {
+                color: #dc3545;
+                margin-left: 5px;
+                display: block;
+            }
+        </style>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <header th:replace="plantilla/plantilla :: encabezado" ></header>
+        <hr>
+        <h2>[[#{pagina.subtituloT}]]</h2>
+        <a th:href="@{/}" style="display: inline-block; margin-bottom: 10px; padding: 8px 15px; text-decoration: none; background-color: #007bff; color: #fff; border-radius: 5px;">[[#{boton.Volver}]]</a>
+        <h3 class="styled-title">[[#{cliente.n}]]: [[${cliente.nombre}]]</h3>
+        <div>
+            <form th:action="@{/insertarT}" method="post" th:object="${turno}">
+                <input type="hidden" name="idTurno" th:field="*{idTurno}" />
+                
+                <label for="horario">[[#{turno.turno}]]:</label>
+                <select name="horario" th:field="*{horario}">
+                    <option value="Mañana" th:text="#{turno.m}" th:selected="${turno.horario == 'Mañana'}"></option>
+                    <option value="Tarde" th:text="#{turno.t}" th:selected="${turno.horario == 'Tarde'}"></option>
+                </select>
+              
+                <label>[[#{turno.efectivo}]]:</label>
+                <div>
+                    <label><input type="radio" name="efectivo" th:field="*{efectivo}" value="true"> Si</label>
+                    <label><input type="radio" name="efectivo" th:field="*{efectivo}" value="false"> No</label>
+                </div>
+
+                <!-- Usar un campo oculto solo para el id del cliente -->
+                <input type="hidden" name="cliente.idCliente" th:value="${cliente.idCliente}" />
+
+                <input type="submit" name="insertarT" th:value="#{boton.guardar}" style="background-color: #28a745; color: #fff; cursor: pointer;"/>
+            </form>
+        </div>
+        <footer th:replace="Plantilla/Plantilla :: piepagina"></footer>
+    </body>
+</html>
+
+
+

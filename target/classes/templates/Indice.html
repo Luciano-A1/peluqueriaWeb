@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Peluqueria Web</title>
+        <meta charset="UTF-8">
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 40px;
+                background-image: url('https://www.xtrafondos.com/wallpapers/degradado-difuminado-azul-7935.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+                color: #fff; /* Texto blanco para mayor contraste */
+            }
+            h1, h2 {
+                color: #333;
+            }
+        </style>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+                color: #000; /* Color del texto para la tabla */
+            }
+            th, td {
+                padding: 10px;
+                text-align: left;
+                border: 1px solid #ddd;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+        </style>
+        <style>
+            p {
+                color: #888;
+                font-style: italic;
+            }
+
+            a {
+                color: #00f; /* Color azul para los enlaces */
+                text-decoration: none; /* Elimina subrayado en los enlaces */
+            }
+
+            a:hover {
+                text-decoration: underline; /* Subrayado al pasar el mouse sobre enlaces */
+            }
+        </style>
+        <style>
+            .styled-button {
+                display: inline-block;
+                margin: 10px;
+                padding: 10px 15px;
+                text-decoration: none;
+                background-color: #007bff;
+                color: #fff;
+                border-radius: 5px;
+            }
+        </style>
+        <style>
+            .styled-title {
+                font-size: 36px;
+                text-align: center;
+                margin-bottom: 20px;
+                background-color: #007bff;
+                color: #fff;
+                padding: 10px;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 class="styled-title">[[#{pagina.titulo}]]</h1>
+        <div>
+            <header th:replace="plantilla/plantilla :: encabezado" ></header>
+        </div>
+        <hr>
+        <h2>[[#{pagina.subtitulo}]]</h2>
+        <hr>
+        <div th:if="${listaDeTurnos != null and not #lists.isEmpty(listaDeTurnos)}">
+            <table border="1">
+                <tr>
+                    <th>[[#{turno.turno}]]</th>
+                    <th>[[#{turno.efectivo}]]</th>
+                    <th>[[#{cliente.idCliente}]]</th> 
+                </tr>
+                <tr th:each="turno: ${listaDeTurnos}">
+                    <td th:text="${turno.horario}"></td>
+                    <td th:text="${turno.efectivo} ? 'Sí' : 'No'"></td>
+                    <td th:text="${turno.cliente.idCliente}"></td> 
+                </tr>
+            </table>
+        </div>
+        <div th:if="${listaDeTurnos == null or #lists.isEmpty(listaDeTurnos)}">
+            <p>[[#{turno.listaSinDatos}]]</p>
+        </div>
+        <br>
+        <hr>
+        <h2>[[#{pagina.subC}]]</h2>
+        <hr>
+        <a th:href="@{/registrar}" class="styled-button"> [[#{pagina.resgistrarCliente}]] </a>
+        <div th:if="${listaDeClientes != null and not #lists.isEmpty(listaDeClientes)}">
+            <table border="1">
+                <tr>
+                    <th>[[#{cliente.idCliente}]]</th>
+                    <th>[[#{cliente.nombre}]]</th>
+                    <th>[[#{cliente.apellido}]]</th>
+                    <th>[[#{cliente.telefono}]]</th>
+                    <th> [[#{boton.sacarT}]] </th>
+                    <th> [[#{boton.borrar}]] </th>
+                </tr>
+                <tr th:each="c: ${listaDeClientes}">
+                    <td th:text="${c.idCliente}"></td>
+                    <td th:text="${c.nombre}"></td>
+                    <td th:text="${c.apellido}"></td>
+                    <td th:text="${c.telefono}"></td>
+                    <td><a th:href="@{/registrarTurno/{idCliente}(idCliente=${c.idCliente})}" class="styled-button" th:text="#{boton.sacarT}"></a></td>
+                    <td><a th:href="@{/Borrar/{idCliente}(idCliente=${c.idCliente})}" class="styled-button" th:text="#{boton.borrar}"></a></td>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${listaDeClientes == null or #lists.isEmpty(listaDeClientes)}">
+            <p>[[#{cliente.listaSinDatos}]]</p>
+        </div>
+        <div>
+            <footer th:replace="Plantilla/Plantilla :: piepagina"></footer>
+        </div>
+    </body>
+</html>
+
+
